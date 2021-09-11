@@ -1,1 +1,18 @@
+#Install Composer
+	#https://linuxize.com/post/how-to-install-and-use-composer-on-centos-8/
+	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+	HASH="$(wget -q -O - https://composer.github.io/installer.sig)"
+	php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+	php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
+#Config Folder
+#chown apache:apache -R folder/
+#chmod 775 -R folder/
+#chcon -t httpd_sys_rw_content_t -R /var/www/html
+
+#sudo setsebool -P httpd_can_network_connect_db 1
+#sudo setsebool -P httpd_can_network_memcache 1
+
+#dnf install policycoreutils-python-utils
+#semanage permissive -a httpd_sys_script_t
+#httpd_sys_script_t 
