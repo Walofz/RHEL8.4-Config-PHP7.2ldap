@@ -1,1 +1,42 @@
+#https://linuxize.com/post/how-to-install-php-on-centos-8/
+  sudo su
+  dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+  dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+  dnf install yum-utils
+	
+#Set PHP version
+	dnf module reset php
+	dnf module install php:remi-7.2
+	dnf update
+	dnf install php php-opcache php-gd php-curl php-mysqlnd php-mbstring php-pdo php-pear php-devel php-cli php-ldap php-json php-zip wget unzip
 
+#Enable PHP-FPM
+	systemctl enable --now php-fpm
+
+#Allow Policies
+	chcon -Rt httpd_sys_rw_content_t /var/www
+	systemctl restart httpd
+	
+#PDO sql
+	curl https://packages.microsoft.com/config/rhel/8/prod.repo > /etc/yum.repos.d/mssql-release.repo
+	exit
+
+	sudo dnf remove unixODBC-utf16 unixODBC-utf16-devel
+	sudo ACCEPT_EULA=Y dnf install msodbcsql17
+	
+# optional: for bcp and sqlcmd
+	sudo ACCEPT_EULA=Y dnf install mssql-tools
+	echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+	echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+	source ~/.bashrc
+# optional: for unixODBC development headers
+	sudo dnf install unixODBC-devel
+	
+#PDO Install
+	sudo dnf install php-sqlsrv
+
+#Config Policlies
+	sudo setsebool -P httpd_can_network_connect_db 1
+	sudo setsebool -P httpd_can_network_memcache 1
+	dnf install policycoreutils-python-utils
+	semanage permissive -a httpd_sys_script_t
