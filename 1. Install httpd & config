@@ -1,1 +1,40 @@
+#https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-centos-8
+sudo dnf install httpd
+	
+#Allow firewall
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
 
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo service httpd restart
+
+#Config Httpd
+sudo nano /etc/httpd/sites-available/*.conf
+
+---
+<VirtualHost *:80>
+  ServerName www.example.com
+  ServerAlias example.com
+  DocumentRoot /var/www/example.com/html
+  ErrorLog /var/www/example.com/log/error.log
+  CustomLog /var/www/example.com/log/requests.log combined
+</VirtualHost>
+---
+
+#Link
+sudo ln -s /etc/httpd/sites-available/*.conf /etc/httpd/sites-enabled/*.conf
+
+#Set Policies 
+sudo setsebool -P httpd_unified 1
+
+#Config Folder
+#chown apache:apache -R folder/
+#chmod 775 -R folder/
+#chcon -t httpd_sys_rw_content_t -R /var/www/html
+#sudo setsebool -P httpd_can_network_connect_db 1
+#sudo setsebool -P httpd_can_network_memcache 1
+#dnf install policycoreutils-python-utils
+#semanage permissive -a httpd_sys_script_t
+#httpd_sys_script_t 
