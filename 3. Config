@@ -12,6 +12,10 @@ max_execution_time = 1200
 max_input_time = -1
 default_socket_timeout = 1200
 memory_limit = 512M
+date.timezone = Aisa/Bangkok
 
 #Fix Permission
 chmod 777 /var/www/mydomain.com/public_html/
+
+#Fix dh error sql
+update-crypto-policies --set LEGACY
