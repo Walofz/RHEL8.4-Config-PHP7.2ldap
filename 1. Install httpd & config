@@ -13,6 +13,7 @@ setsebool -P httpd_unified 1
 setsebool -P httpd_can_network_connect_db 1
 setsebool -P httpd_can_network_memcache 1
 semanage permissive -a httpd_sys_script_t
+semanage permissive -a httpd_t
 
 ---
 <VirtualHost *:80>
