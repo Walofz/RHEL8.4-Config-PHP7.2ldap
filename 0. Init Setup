@@ -1,5 +1,3 @@
-#Install Python 3.6 #Rocky Linux
-dnf module -y install python36
-
-#Set Policies 
-sudo setsebool -P httpd_unified 1
+subscription-manager register --username <username> --password <password> --auto-attach
+subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms
+dnf update -y
